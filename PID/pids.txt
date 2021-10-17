@@ -1,0 +1,9 @@
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root         1  0.0  0.0   6972  1452 ?        Ss   Aug22   0:04 /bin/bash /tmp/run.sh
+root       316  0.0  0.0  12176  6800 ?        S    05:06   0:00 sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups
+root       328  0.0  0.0   7104  3748 pts/4    S+   05:06   0:00 /bin/bash ./executor
+root       330  0.0  0.0   6972  3356 pts/4    S+   05:06   0:00 /bin/bash ./killer
+root       331  0.0  0.0   8892  3236 pts/4    R+   05:06   0:00 ps aux
+root       332  0.0  0.0   6972   244 pts/4    R+   05:06   0:00 /bin/bash ./killer
+root     32559  0.0  0.0   7348  4232 pts/3    Ss+  02:29   0:00 /bin/bash
+root     32731  0.0  0.0   7348  4044 pts/4    Ss   05:05   0:00 /bin/bash
