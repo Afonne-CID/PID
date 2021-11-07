@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Extracts all reg nos.
+
+cat "$1" | grep -oEi '[0-9]{8,8}[a-zA-Z]{2,2}'
