@@ -4,6 +4,7 @@
 from bs4 import BeautifulSoup
 import requests
 import re
+import time
 
 
 def scrapping(reg_no):
@@ -14,38 +15,54 @@ def scrapping(reg_no):
            '__EVENTVALIDATION': 'cxusMBFlG/AQfwHuETuD9idUNpq9UVsO2veYcmdjk4Q/sVDx5tdMQaJbptoFYMt8GdubBxPoQzrgFCiTrjXRYStgd90Cxb6Xx5ZtOLjufRUD1TGZM4kf8/VqFDMOon704M6O7oztvfyKhSqk9lRT/4z1W7hT4JIzalzdJmF9s9o=',
            'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
            'user-agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Mobile Safari/537.36',
+           'cookie': 'ASP.NET_SessionId=a0rh13nzcamjvitw5xmnrnrx',
            'txtRegNumber': reg_no
     }
     req = requests.Session()
+    etag = req.post(url, data=postdata, headers=dict(referer='https://portal.jamb.gov.ng/examslipprinting/printexaminationslip'))
+    return(etag.headers)
+   
+    """ 
     r = req.get(url, headers=postdata)
     soup = BeautifulSoup(r.content, 'html.parser')
+    result = ""
 
-    try:
     pattern = re.compile(r'\d\d\d\d\d\d\d\d\d\d\d')
-    phone = pattern.search(str(soup))
+    try:
+        phone = pattern.search(str(soup))
+        phone = phone.group()
+    except:
+        phone = 0
 
     rows = soup.select('tr td table')
     row = rows[0]
     details = row.select_one('table')
     names = details.select('tr')
 
-    container = names[0]
-    surname = container.select('td')
-    surname = surname[1].text
+    try:
+        container = names[0]
+        surname = container.select('td')
+        surname = surname[1].text
+    except:
+        surname = ""
 
-    container = names[1]
-    firstname = container.select('td')
-    firstname = firstname[1].text
- 
-    container = names[2]
-    othername = container.select('td')
-    othername = othername[1].text
-    
-    phone = phone.group()
-
+    try:    
+        container = names[1]
+        firstname = container.select('td')
+        firstname = firstname[1].text
+    except:
+        firstname = ""
+     
+    try:
+        container = names[2]
+        othername = container.select('td')
+        othername = othername[1].text
+    except:
+         othername = ""
+        
     result = surname + firstname + othername + "\t" + str(phone)
     return (result)
-
+"""
 
 if __name__ == "__main__":
 
@@ -56,9 +73,11 @@ if __name__ == "__main__":
             try:
                 print("Extracting details for {}".format(each), end="")
                 each = each.strip()
-                f1.write(scrapping(each) + '\n')
+                f1.write(str(scrapping(each)) + '\n')
+                time.sleep(1)
             except Exception as e:
                 print(e)
+                time.sleep(1)
 
     f1.close()
     f2.close()
