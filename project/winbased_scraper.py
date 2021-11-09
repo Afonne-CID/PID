@@ -1,4 +1,6 @@
 from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
@@ -11,9 +13,8 @@ def load_page(reg_no):
     options = webdriver.ChromeOptions()
     options.add_experimental_option("excludeSwitches", ["enable-logging", "ignore-certificate-errors"])
     url = 'https://portal.jamb.gov.ng/ExamSlipPrinting/PrintExaminationSlip'
-    s=Service("C:/Users/DOZI/Desktop/SCRAPER/chromedriver.exe")
 
-    driver = webdriver.Chrome(service=s, options=options)
+    driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
     driver.get(url)
 
     search_field = driver.find_element(By.ID, 'txtRegNumber')
@@ -77,7 +78,7 @@ def scrapping(reg_no):
 
 if __name__ == "__main__":
 
-    f1 = open('JAMB_EXTRACT.txt', 'a')
+    f1 = open('C:/Users/DOZI/Desktop/SCRAPER/JAMB_EXTRACT.txt', 'a')
 
     with open("C:/Users/DOZI/Desktop/SCRAPER/Reg_nos.txt", "r") as f2:
         for each in f2:
